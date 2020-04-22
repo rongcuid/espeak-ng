@@ -100,6 +100,12 @@ extern int embedded_default[N_EMBEDDED_VALUES];
 #define KLATT_FricBP  8
 #define KLATT_Turb    9
 
+typedef enum {
+	SPEAK_NEXT_CLAUSE_START,
+	SPEAK_NEXT_CLAUSE_NEXT,
+	SPEAK_NEXT_CLAUSE_STOP,
+} espeak_ng_SPEAK_CONTROL;
+
 typedef struct { // 64 bytes
 	short frflags;
 	short ffreq[7];
@@ -460,7 +466,7 @@ extern short echo_buf[N_ECHO_BUF];
 void SynthesizeInit(void);
 int  Generate(PHONEME_LIST *phoneme_list, int *n_ph, bool resume);
 void MakeWave2(PHONEME_LIST *p, int n_ph);
-int  SpeakNextClause(int control);
+int  SpeakNextClause(espeak_ng_SPEAK_CONTROL control);
 void SetSpeed(int control);
 void SetEmbedded(int control, int value);
 int FormantTransition2(frameref_t *seq, int *n_frames, unsigned int data1, unsigned int data2, PHONEME_TAB *other_ph, int which);

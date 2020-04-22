@@ -450,7 +450,7 @@ static espeak_ng_STATUS Synthesize(unsigned int unique_identifier, const void *t
 	if (status != ENS_OK)
 		return status;
 
-	SpeakNextClause(0);
+	SpeakNextClause(SPEAK_NEXT_CLAUSE_START);
 
 	for (;;) {
 		out_ptr = outbuf;
@@ -472,7 +472,7 @@ static espeak_ng_STATUS Synthesize(unsigned int unique_identifier, const void *t
 		} else if (synth_callback)
 			finished = synth_callback((short *)outbuf, length, event_list);
 		if (finished) {
-			SpeakNextClause(2); // stop
+			SpeakNextClause(SPEAK_NEXT_CLAUSE_STOP); // stop
 			return ENS_SPEECH_STOPPED;
 		}
 
@@ -485,7 +485,7 @@ static espeak_ng_STATUS Synthesize(unsigned int unique_identifier, const void *t
 				event_list[0].unique_identifier = my_unique_identifier;
 				event_list[0].user_data = my_user_data;
 
-				if (SpeakNextClause(1) == 0) {
+				if (SpeakNextClause(SPEAK_NEXT_CLAUSE_NEXT) == 0) {
 					finished = 0;
 					if ((my_mode & ENOUTPUT_MODE_SPEAK_AUDIO) == ENOUTPUT_MODE_SPEAK_AUDIO) {
 						if (dispatch_audio(NULL, 0, NULL) < 0)
@@ -493,7 +493,7 @@ static espeak_ng_STATUS Synthesize(unsigned int unique_identifier, const void *t
 					} else if (synth_callback)
 						finished = synth_callback(NULL, 0, event_list); // NULL buffer ptr indicates end of data
 					if (finished) {
-						SpeakNextClause(2); // stop
+						SpeakNextClause(SPEAK_NEXT_CLAUSE_STOP); // stop
 						return ENS_SPEECH_STOPPED;
 					}
 					return ENS_OK;

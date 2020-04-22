@@ -1531,7 +1531,7 @@ int Generate(PHONEME_LIST *phoneme_list, int *n_ph, bool resume)
 	return 0; // finished the phoneme list
 }
 
-int SpeakNextClause(int control)
+int SpeakNextClause(espeak_ng_SPEAK_CONTROL control)
 {
 	// Speak text from memory (text_in)
 	// control 0: start
@@ -1545,7 +1545,7 @@ int SpeakNextClause(int control)
 	char *voice_change;
 	const char *phon_out;
 
-	if (control == 2) {
+	if (control == SPEAK_NEXT_CLAUSE_STOP) {
 		// stop speaking
 		n_phoneme_list = 0;
 		WcmdqStop();
